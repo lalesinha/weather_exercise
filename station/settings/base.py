@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'station.wsgi.application'
 
 DATABASES = {
      'default': {
-         'ENGINE': 'django.db.backends.postgresql',
+         'ENGINE': 'django.contrib.gis.db.backends.postgis',
          'NAME': 'test1',
          'USER': 'ale',
          'HOST': 'postgresql-116911-0.cloudclusters.net',
