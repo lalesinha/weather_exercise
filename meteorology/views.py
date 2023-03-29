@@ -8,12 +8,6 @@ from .models import WeatherStation, WeatherData
 from .serializers import WeatherStationSerializer, WeatherDataSerializer
 
 
-def hello(request):
-    data = {
-        'message': 'Hello, World!'
-    }
-    return JsonResponse(data)
-
 @api_view(['GET'])
 def get_all_weather_stations(request):
     weather_stations = WeatherStation.objects.all()
