@@ -1,11 +1,10 @@
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
 from .models import WeatherStation, WeatherData
-from .serializers import WeatherStationSerializer, WeatherDataSerializer
+from .serializers import WeatherStationSerializer, WeatherDataSerializer, WeatherStationUpdateSerializer
 
 
 @api_view(['GET'])
@@ -23,7 +22,7 @@ def get_single_weather_station(request, station_id):
 @api_view(['PUT'])
 def update_weather_station(request, station_id):
     weather_station = get_object_or_404(WeatherStation, pk=station_id)
-    serializer = WeatherStationSerializer(weather_station, data=request.data)
+    serializer = WeatherStationUpdateSerializer(weather_station, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data)
@@ -36,8 +35,8 @@ def delete_weather_station(request, station_id):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
-def create_weather_data(request, station_id):
-    weather_station = get_object_or_404(WeatherStation, pk=station_id)
+def create_weather_data(request,station_id):
+    weather_station = get_object_or_404(WeatherStation,pk=station_id)
     serializer = WeatherDataSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(station=weather_station)
@@ -49,12 +48,11 @@ def get_all_weather_data_for_station(request, station_id):
     weather_station = get_object_or_404(WeatherStation, pk=station_id)
     weather_data = WeatherData.objects.filter(station=weather_station)
     serializer = WeatherDataSerializer(weather_data, many=True)
-    return Response(serializer.data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def get_single_weather_data(request, station_id, data_id):
-    weather_station = get_object_or_404(WeatherStation, pk=station_id)
-    weather_data = get_object_or_404(WeatherData, pk=data_id, station=weather_station)
+def get_single_weather_data(request, data_id):
+    weather_data = get_object_or_404(WeatherData, pk=data_id)
     serializer = WeatherDataSerializer(weather_data)
     return Response(serializer.data)
 

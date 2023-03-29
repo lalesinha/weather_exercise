@@ -1,7 +1,6 @@
 from django.contrib.gis.db import models
 
 class WeatherStation(models.Model):
-    id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     location = models.PointField()
 

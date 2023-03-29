@@ -7,9 +7,15 @@ class WeatherStationSerializer(serializers.ModelSerializer):
         model = WeatherStation
         fields = '__all__'
 
+class WeatherStationUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeatherStation
+        fields = ('name',) 
+
 class WeatherDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeatherData
         fields = '__all__'
+    
 
         
